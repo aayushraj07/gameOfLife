@@ -62,7 +62,7 @@ class Buttons extends React.Component {
           <button className="btn btn-default" onClick={this.props.playButton}>
             Play
           </button>
-          <button className="btn btn-default" onClick={this.props.pausebutton}>
+          <button className="btn btn-default" onClick={this.props.pauseButton}>
             Pause
           </button>
           <button className="btn btn-default" onClick={this.props.clear}>
@@ -83,8 +83,8 @@ class Buttons extends React.Component {
             onSelect={this.handleSelect}
           >
             <MenuItem eventKey="1">20*10</MenuItem>
-            <MenuItem eventKey="1">50*30</MenuItem>
-            <MenuItem eventKey="1">70*50</MenuItem>
+            <MenuItem eventKey="2">50*30</MenuItem>
+            <MenuItem eventKey="3">70*50</MenuItem>
           </DropdownButton>
         </ButtonToolbar>
       </div>
@@ -138,6 +138,43 @@ class Main extends React.Component {
     clearInterval(this.intervalId);
   };
 
+  slow = () => {
+    this.speed = 1000;
+    this.playButton();
+  };
+
+  fast = () => {
+    this.speed = 100;
+    this.playButton();
+  };
+
+  clear = () => {
+    var grid = Array(this.rows)
+      .fill()
+      .map(() => Array(this.cols).fill(false));
+    this.setState({
+      gridFull: grid,
+      generation: 0
+    });
+  };
+
+  gridSize = size => {
+    switch (size) {
+      case "1":
+        this.cols = 20;
+        this.rows = 10;
+        break;
+      case "2":
+        this.cols = 50;
+        this.rows = 30;
+        break;
+      default:
+        this.cols = 70;
+        this.rows = 50;
+    }
+    this.clear();
+  };
+
   play = () => {
     let g = this.state.gridFull;
     let g2 = arrayClone(this.state.gridFull);
@@ -189,7 +226,7 @@ class Main extends React.Component {
           selectBox={this.selectBox}
         />
         <h2>
-          Generation:
+          Generations:
           {this.state.generation}
         </h2>
       </div>
